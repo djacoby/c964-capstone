@@ -2,12 +2,12 @@ from sqlalchemy import create_engine
 
 engine = create_engine('postgresql://postgres@localhost:5432/capstone')
 
-connnection = engine.connect()
+connection = engine.connect()
 
 
 def get_db():
-    return connnection
+    return connection
 
 
 def disconnect_db():
-    connnection.close()
+    connection.close()

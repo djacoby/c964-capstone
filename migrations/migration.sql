@@ -1,6 +1,5 @@
 CREATE TABLE store (
   "id" SERIAL NOT NULL,
-  "name" VARCHAR(128) NOT NULL,
   "city" VARCHAR(128) NOT NULL,
   "state" VARCHAR(2) NOT NULL,
   "district" SMALLINT NOT NULL,
@@ -27,7 +26,7 @@ CREATE TABLE user_data (
   "last_name" VARCHAR(128) NOT NULL,
   "email" VARCHAR(128) NOT NULL,
   "password" VARCHAR(128) NOT NULL,
-  "user_type" SMALLINT NOT NULL,
+  "admin" BOOLEAN NOT NULL DEFAULT FALSE,
   "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
   "updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
   "deleted_at" TIMESTAMP,
