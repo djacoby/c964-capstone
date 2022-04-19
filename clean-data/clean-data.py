@@ -66,10 +66,20 @@ city_dict = {
     "El Carmen": "Gary"
 }
 
+# District lookup dictionary to map states to districts
+district_dict = {
+    "IL": 1,
+    "IN": 2,
+    "MI": 3,
+    "IA": 4,
+    "OH": 5,
+}
+
 # Loop through store list and clean data
 for store in stores_list:
     store['state'] = state_dict[store['state']]
     store['city'] = city_dict[store['city']]
+    store['cluster'] = district_dict[store['state']]
 
     cleaned_stores.append(store)
 
