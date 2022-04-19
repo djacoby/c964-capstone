@@ -4,10 +4,8 @@ def get_transactions_for_store_date_range_query(store_id, start_date, end_date):
     """
     return """
         SELECT
-          "id"
-          ,"store_id"
-          ,"amount"
-          ,"transaction_date"
+          "transaction_date" as ds
+          ,"amount" as y
         FROM transactions
         WHERE store_id = %s
         AND transaction_date >= %s
@@ -21,10 +19,8 @@ def get_all_transactions_for_store_query(store_id):
     """
     return """
         SELECT
-          "id"
-          ,"store_id"
-          ,"amount"
-          ,"transaction_date"
+          "transaction_date" as ds
+          ,"amount" as y
         FROM transactions
         WHERE store_id = %s;
     """, store_id
