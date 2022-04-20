@@ -1,6 +1,4 @@
-from json import dumps
-from flask import Flask, jsonify, render_template, request
-from matplotlib.pyplot import title
+from flask import Flask, jsonify, request
 
 from store_service import (
     get_all_stores,
@@ -13,16 +11,8 @@ from transaction_service import (
     get_transactions_for_store_date_range,
 )
 
+
 app = Flask(__name__)
-
-
-@app.route('/')
-def hello_world():
-    return render_template(
-        'index.html',
-        title="Neural Prophet",
-        description="A neural network based forecasting tool.",
-    )
 
 
 @app.route('/api/v1/health', methods=['GET'])
