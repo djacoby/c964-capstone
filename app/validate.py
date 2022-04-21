@@ -3,6 +3,7 @@ import numpy as np
 from neuralprophet import NeuralProphet
 
 from transaction_service import get_transactions_for_store_date_range
+from store_service import get_all_stores
 
 
 # Function to calculate the mean absolute percentage error (MAPE) of the model
@@ -10,28 +11,44 @@ def get_mape(actual, predicted):
     return np.mean(np.abs((actual - predicted) / actual)) * 100
 
 
-# Get training data
-result = get_transactions_for_store_date_range(1, '2013-01-01', '2017-06-30')
-# Get control data
-control = get_transactions_for_store_date_range(1, '2017-07-01', '2017-07-31')
+total_mape = 0
 
-# Convert control data list of dicts to array of the y values
-actual = np.array([x['y'] for x in control])
+stores = get_all_stores()
 
-# Convert training data to Panda DataFrame
-df = pd.DataFrame(result)
+for store in stores:
+    store_id = store['id']
 
-# Create NeuralProphet model
-m = NeuralProphet()
-m.fit(df, freq="D")
+    # Get training data
+    result = get_transactions_for_store_date_range(
+        store_id, '2013-01-01', '2017-06-30')
+    # Get control data
+    control = get_transactions_for_store_date_range(
+        store_id, '2017-07-01', '2017-07-31')
 
-# Create forecast to match our control data period (2017-07-01 to 2017-07-31)
-future = m.make_future_dataframe(df=df, periods=31)
-forecast = m.predict(df=future)
+    # Convert control data list of dicts to array of the y values
+    actual = np.array([x['y'] for x in control])
 
-# Convert forecast to array of the yhat1 values
-predicted = np.array([x['yhat1'] for x in forecast.to_dict('records')])
+    # Convert training data to Panda DataFrame
+    df = pd.DataFrame(result)
 
-mape = get_mape(actual, predicted)
+    # Create NeuralProphet model
+    m = NeuralProphet()
+    m.fit(df, freq="D")
 
-print("The mean absolute percentage error: ", round(mape, 5), "%")
+    # Create forecast to match our control data period (2017-07-01 to 2017-07-31)
+    future = m.make_future_dataframe(df=df, periods=31)
+    forecast = m.predict(df=future)
+
+    # Convert forecast to array of the yhat1 values
+    predicted = np.array([x['yhat1'] for x in forecast.to_dict('records')])
+
+    mape = get_mape(actual, predicted)
+
+    print(f'Store {store_id} has an mape of {mape}')
+
+    total_mape += mape
+
+
+mape_average = total_mape / len(stores)
+
+print("The mean absolute percentage error: ", round(mape_average, 5), "%")
