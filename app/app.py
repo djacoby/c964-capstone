@@ -11,6 +11,8 @@ from transaction_service import (
     get_transactions_for_store_date_range,
 )
 
+from forecast_service import get_forecast
+
 
 app = Flask(__name__)
 
@@ -51,5 +53,15 @@ def transactions_by_store_id(store_id):
             store_id, start_date, end_date)
     else:
         result = get_all_transactions_for_store(store_id)
+    headers = {'Content-Type': 'application/json'}
+    return jsonify({'result': result}), 200, headers
+
+
+@app.route('/api/v1/store/<int:store_id>/forecast', methods=['GET'])
+def prediction_by_store_id(store_id):
+    start_date = request.args['start_date']
+    end_date = request.args['end_date']
+
+    result = get_forecast(store_id, start_date, end_date)
     headers = {'Content-Type': 'application/json'}
     return jsonify({'result': result}), 200, headers
