@@ -18,7 +18,7 @@ for store in stores:
 
     # Create NeuralProphet model
     model = NeuralProphet()
-    metrics = model.fit(df, freq="D")
+    model.fit(df, freq="D")
 
     filename = f'store_{store_id}.pkl'
     pickle.dump(model, open(os.path.join(os.path.dirname(
