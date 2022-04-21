@@ -2,8 +2,8 @@ import os
 import pickle
 import pandas as pd
 from neuralprophet import NeuralProphet
-from transaction_service import get_all_transactions_for_store
-from store_service import get_all_stores
+from app.services.transaction_service import get_all_transactions_for_store
+from app.services.store_service import get_all_stores
 
 stores = get_all_stores()
 

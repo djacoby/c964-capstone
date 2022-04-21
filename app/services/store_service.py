@@ -1,6 +1,6 @@
-from db import execute_query
+from ..db.get_db import execute_query
 
-from store_queries import (
+from ..db.store_queries import (
     get_all_stores_query,
     get_store_by_id_query,
     get_stores_by_district_query,

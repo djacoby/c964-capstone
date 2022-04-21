@@ -4,7 +4,7 @@ from datetime import datetime
 
 import pandas as pd
 
-from transaction_service import get_all_transactions_for_store
+from app.services.transaction_service import get_all_transactions_for_store
 
 
 def get_forecast(store_id, start_date, end_date):
