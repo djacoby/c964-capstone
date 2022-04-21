@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 from app.services.store_service import (
     get_all_stores,
@@ -9,6 +10,7 @@ from app.services.store_service import (
 from app.services.forecast_service import get_forecast
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/api/v1/health', methods=['GET'])
