@@ -17,7 +17,7 @@ def get_forecast(store_id, start_date, end_date):
     periods = (end_date - last_record_date).days
 
     # Calculate number of records to return
-    num_records = ((end_date - start_date)).days + 1
+    num_records = ((end_date - start_date)).days - 1
 
     # Load model
     filename = f'store_{store_id}.pkl'
