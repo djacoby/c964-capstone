@@ -33,8 +33,7 @@ def get_forecast(store_id, start_date, end_date):
     forecast = model.predict(df=future)
 
     # Drop residual1 column from forecast
-    forecast = forecast.drop(
-        columns=['residual1', 'season_weekly', 'season_yearly', 'trend', 'y'], axis=1)
+    forecast = forecast.drop(columns=['residual1'], axis=1)
 
     # Convert forecast to array of dicts
     forecast_dict = forecast.to_dict('records')
