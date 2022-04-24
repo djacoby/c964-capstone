@@ -55,7 +55,7 @@
   }
 </script>
 
-<main class="bg-light">
+<main>
   <Navbar />
   <div class="container">
     {#if storeList && selectedStore}
