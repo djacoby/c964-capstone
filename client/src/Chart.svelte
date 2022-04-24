@@ -33,7 +33,6 @@
   let ctx;
 
   $: {
-    // console.log(ctx);
     ctx = document.getElementById('myChart');
 
     if (ctx && forecast) {
@@ -53,10 +52,7 @@
 </script>
 
 <main>
-  <div
-    class="chart-container"
-    style="position: relative; height:40vh; width:80vw"
-  >
+  <div class="my-4 w-100">
     <canvas id="myChart" />
   </div>
 </main>
