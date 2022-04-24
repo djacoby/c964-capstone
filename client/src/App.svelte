@@ -1,145 +1,68 @@
 <script>
-  import { onMount } from 'svelte';
-
-  import SveltyPicker from 'svelty-picker';
-
-  import Navbar from './Navbar.svelte';
-  import Chart from './Chart.svelte';
-
-  import { getAllStoresList, getForecast } from './api/api.service';
-
-  import {
-    MIN_START_DATE,
-    END_DATE,
-    validateStartDate,
-    validateEndDate,
-    convertDate,
-    roundTrafficValue,
-  } from './util';
-
-  let storeList;
-  let selectedStore;
-  let forecast;
-
-  let startDate = MIN_START_DATE;
-  let endDate = END_DATE;
-
-  let validStartDate = true;
-  let validEndDate = true;
-
-  onMount(async () => {
-    getAllStoresList().then((stores) => {
-      selectedStore = stores.result[0];
-      storeList = stores.result;
-
-      getForecast(selectedStore.id, startDate, endDate).then((fcast) => {
-        forecast = fcast.result.map((f) => {
-          return {
-            ds: convertDate(f.ds),
-            yhat1: roundTrafficValue(f.yhat1),
-          };
-        });
-      });
-    });
-  });
-
-  function updateForecast() {
-    getForecast(selectedStore.id, startDate, endDate).then((fcast) => {
-      forecast = fcast.result.map((f) => {
-        return {
-          ds: convertDate(f.ds),
-          yhat1: roundTrafficValue(f.yhat1),
-        };
-      });
-    });
-  }
+  import Dashboard from './Dashboard.svelte';
 </script>
 
-<main class="bg-light">
-  <Navbar />
-  <div class="container">
-    {#if storeList && selectedStore}
-      <div class="row my-4 w-100">
-        <div class="col-md-5">
-          <label for="store-select" class="form-label pt-3">Store</label>
-          <select
-            class="form-select"
-            id="store-picker"
-            bind:value={selectedStore}
-          >
-            <option selected value={selectedStore}>
-              Store #{selectedStore.id}
-              {selectedStore.city}, {selectedStore.state}
-            </option>
-            {#each storeList as store}
-              {#if store.id !== selectedStore.id}
-                <option value={store}
-                  >Store #{store.id} {store.city}, {store.state}
-                </option>
-              {/if}
-            {/each}
-          </select>
-        </div>
+<body class="text-center">
+  <main class="form-signin">
+    <form>
+      <img src="/images/logo.png" alt="" width="200" height="200" />
+      <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
-        <div class="col-md-3">
-          <label for="start-picker" class="form-label pt-3">Start Date</label>
-          <SveltyPicker
-            id="start-picker"
-            inputClasses="form-control form-select"
-            format="yyyy-mm-dd"
-            bind:value={startDate}
-            on:input={() => {
-              validStartDate = validateStartDate(startDate);
-            }}
-          />
-          {#if !validStartDate}
-            <div class="text-danger mt-1">
-              Start Date can't be before tomorrow
-            </div>
-          {/if}
-        </div>
-
-        <div class="col-md-3">
-          <label for="end-picker" class="form-label pt-3">End Date</label>
-          <SveltyPicker
-            id="end-picker"
-            inputClasses="form-control form-select"
-            format="yyyy-mm-dd"
-            bind:value={endDate}
-            on:input={() => {
-              validEndDate = validateEndDate(startDate, endDate);
-            }}
-          />
-          {#if !validEndDate}
-            <div class="text-danger mt-1">
-              End Date can't be before Start Date
-            </div>
-          {/if}
-        </div>
-
-        <div class="col-md-1 d-sm-none d-md-block mt-5">
-          <button
-            type="button"
-            class="btn btn-primary"
-            disabled={!validStartDate || !validEndDate}
-            on:click={() => updateForecast()}>Submit</button
-          >
-        </div>
-
-        <div class="d-grid d-block d-md-none mt-3">
-          <button
-            type="button"
-            class="btn btn-primary"
-            disabled={!validStartDate || !validEndDate}
-            on:click={() => updateForecast()}>Submit</button
-          >
-        </div>
+      <div class="form-floating">
+        <input
+          type="email"
+          class="form-control"
+          id="floatingInput"
+          placeholder="name@example.com"
+        />
+        <label for="floatingInput">Email address</label>
       </div>
-    {/if}
+      <div class="form-floating">
+        <input
+          type="password"
+          class="form-control"
+          id="floatingPassword"
+          placeholder="Password"
+        />
+        <label for="floatingPassword">Password</label>
+      </div>
 
-    <Chart {forecast} />
-  </div>
-</main>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button
+      >
+      <p class="mt-5 mb-3 text-muted">&copy; 2022 Acme Grocery INC.</p>
+    </form>
+  </main>
+</body>
 
 <style>
+  body {
+    display: flex;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+  }
+
+  .form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+  }
+
+  .form-signin .form-floating:focus-within {
+    z-index: 2;
+  }
+
+  .form-signin input[type='email'] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .form-signin input[type='password'] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
 </style>
