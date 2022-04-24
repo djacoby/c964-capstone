@@ -9,8 +9,10 @@
   import { getAllStoresList, getForecast } from './api/api.service';
 
   import {
-    getStartDate,
-    getEndDate,
+    MIN_START_DATE,
+    END_DATE,
+    validateStartDate,
+    validateEndDate,
     convertDate,
     roundTrafficValue,
   } from './util';
@@ -19,10 +21,11 @@
   let selectedStore;
   let forecast;
 
-  let startDate = getStartDate();
-  let endDate = getEndDate();
+  let startDate = MIN_START_DATE;
+  let endDate = END_DATE;
 
-  let invalidInput = false;
+  let validStartDate = true;
+  let validEndDate = true;
 
   onMount(async () => {
     getAllStoresList().then((stores) => {
@@ -56,9 +59,9 @@
   <Navbar />
   <div class="container">
     {#if storeList && selectedStore}
-      <div class="row mb-5">
-        <div class="col-md-3">
-          <label for="store-select" class="form-label">Store</label>
+      <div class="row my-4 w-100">
+        <div class="col-md-5">
+          <label for="store-select" class="form-label pt-3">Store</label>
           <select
             class="form-select"
             id="store-picker"
@@ -79,29 +82,55 @@
         </div>
 
         <div class="col-md-3">
-          <label for="start-picker" class="form-label">Start Date</label>
+          <label for="start-picker" class="form-label pt-3">Start Date</label>
           <SveltyPicker
             id="start-picker"
             inputClasses="form-control form-select"
             format="yyyy-mm-dd"
             bind:value={startDate}
+            on:input={() => {
+              validStartDate = validateStartDate(startDate);
+            }}
           />
+          {#if !validStartDate}
+            <div class="text-danger mt-1">
+              Start Date can't be before tomorrow
+            </div>
+          {/if}
         </div>
 
         <div class="col-md-3">
-          <label for="end-picker" class="form-label">End Date</label>
+          <label for="end-picker" class="form-label pt-3">End Date</label>
           <SveltyPicker
             id="end-picker"
             inputClasses="form-control form-select"
             format="yyyy-mm-dd"
             bind:value={endDate}
+            on:input={() => {
+              validEndDate = validateEndDate(startDate, endDate);
+            }}
           />
+          {#if !validEndDate}
+            <div class="text-danger mt-1">
+              End Date can't be before Start Date
+            </div>
+          {/if}
         </div>
 
-        <div class="col-md-3 d-flex align-items-end">
+        <div class="col-md-1 d-sm-none d-md-block mt-5">
           <button
             type="button"
             class="btn btn-primary"
+            disabled={!validStartDate || !validEndDate}
+            on:click={() => updateForecast()}>Submit</button
+          >
+        </div>
+
+        <div class="d-grid d-block d-md-none mt-3">
+          <button
+            type="button"
+            class="btn btn-primary"
+            disabled={!validStartDate || !validEndDate}
             on:click={() => updateForecast()}>Submit</button
           >
         </div>
@@ -109,29 +138,6 @@
     {/if}
 
     <Chart {forecast} />
-
-    <!-- <div class="row">
-      <div class="col-lg-12">
-        {#if forecast}
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Traffic</th>
-              </tr>
-            </thead>
-            <tbody>
-              {#each forecast as day}
-                <tr>
-                  <td>{convertDate(day.ds)}</td>
-                  <td>{roundTrafficValue(day.yhat1)}</td>
-                </tr>
-              {/each}
-            </tbody>
-          </table>
-        {/if}
-      </div>
-    </div> -->
   </div>
 </main>
 
