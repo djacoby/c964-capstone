@@ -66,8 +66,7 @@ def get_manager_by_user_id_query(user_id):
     """
     return """
       SELECT
-        user_id
-        ,store_id
+        store_id
       FROM manager
       WHERE user_id = %s;
     """, user_id
@@ -79,8 +78,7 @@ def get_district_manager_by_user_id_query(user_id):
     """
     return """
       SELECT
-        user_id
-        ,district_id
+        district_id
       FROM district_manager
       WHERE user_id = %s;
     """, user_id
