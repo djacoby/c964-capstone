@@ -41,9 +41,8 @@ def login():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
     user = login_user(email, password)
-    print(user)
-    # if not user:
-    #     return jsonify({"msg": "Bad username or password"}), 401
+    if not user:
+        return jsonify({"msg": "Bad username or password"}), 401
 
     access_token = create_access_token(identity=email)
     return jsonify(access_token=access_token)
@@ -53,6 +52,7 @@ def login():
 @jwt_required()
 def all_stores():
     result = get_all_stores()
+    print(result)
     headers = {'Content-Type': 'application/json'}
     return jsonify({'result': result}), 200, headers
 
@@ -79,6 +79,8 @@ def prediction_by_store_id(store_id):
     result = get_forecast(store_id, start_date, end_date)
     headers = {'Content-Type': 'application/json'}
     return jsonify({'result': result}), 200, headers
+
+# TODO: nuke this before prod
 
 
 @app.route('/admin', methods=['POST'])
