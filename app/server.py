@@ -45,19 +45,19 @@ def login():
         return jsonify({"msg": "Bad username or password"}), 401
 
     access_token = create_access_token(identity=email)
-    return jsonify(access_token=access_token)
+    return jsonify({'token': access_token, 'user': user}), 200
 
 
 @app.route('/api/v1/store', methods=['GET'])
 @jwt_required()
 def all_stores():
     result = get_all_stores()
-    print(result)
     headers = {'Content-Type': 'application/json'}
     return jsonify({'result': result}), 200, headers
 
 
 @app.route('/api/v1/store/<int:store_id>', methods=['GET'])
+@jwt_required()
 def store_by_id(store_id):
     result = get_store_by_id(store_id)
     headers = {'Content-Type': 'application/json'}
@@ -65,6 +65,7 @@ def store_by_id(store_id):
 
 
 @app.route('/api/v1/store/district/<int:district>', methods=['GET'])
+@jwt_required()
 def store_by_district(district):
     result = get_store_by_district(district)
     headers = {'Content-Type': 'application/json'}
@@ -72,6 +73,7 @@ def store_by_district(district):
 
 
 @app.route('/api/v1/store/<int:store_id>/forecast', methods=['GET'])
+@jwt_required()
 def prediction_by_store_id(store_id):
     start_date = request.args['start_date']
     end_date = request.args['end_date']

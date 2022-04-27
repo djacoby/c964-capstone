@@ -2,7 +2,8 @@ import { navigate } from 'svelte-routing';
 
 import { getApiRoute } from './api-routes';
 
-export let token;
+let token;
+export let user;
 
 async function get(route) {
   if (localStorage.getItem('token')) {
@@ -34,8 +35,11 @@ export const login = async (email, password) => {
   const route = getApiRoute.login();
   const res = await post(route, { email, password });
   const json = await res.json();
-  localStorage.setItem('token', json['access_token']);
-  return !res.ok;
+  localStorage.setItem('token', json.token);
+  user = json.user;
+  return {
+    status: !res.ok,
+  }
 }
 
 /**

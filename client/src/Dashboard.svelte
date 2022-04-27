@@ -5,8 +5,15 @@
 
   import Navbar from './Navbar.svelte';
   import Chart from './Chart.svelte';
+  import Spinner from './Spinner.svelte';
 
-  import { getAllStoresList, getForecast } from './api/api.service';
+  import {
+    getAllStoresList,
+    getForecast,
+    getStoreById,
+    getStoreListByDistrict,
+    user,
+  } from './api/api.service';
 
   import {
     MIN_START_DATE,
@@ -20,6 +27,7 @@
   let storeList;
   let selectedStore;
   let forecast;
+  let loading = true;
 
   let startDate = MIN_START_DATE;
   let endDate = END_DATE;
@@ -28,22 +36,44 @@
   let validEndDate = true;
 
   onMount(async () => {
-    getAllStoresList().then((stores) => {
-      selectedStore = stores.result[0];
-      storeList = stores.result;
+    if (user?.['store_id']) {
+      return getStoresForManager();
+    }
+    if (user?.['district_id']) {
+      return getStoresForDistrictManager();
+    }
 
-      getForecast(selectedStore.id, startDate, endDate).then((fcast) => {
-        forecast = fcast.result.map((f) => {
-          return {
-            ds: convertDate(f.ds),
-            yhat1: roundTrafficValue(f.yhat1),
-          };
-        });
-      });
-    });
+    return getAllStores();
   });
 
-  function updateForecast() {
+  function getAllStores() {
+    getAllStoresList()
+      .then((stores) => {
+        selectedStore = stores.result[0];
+        storeList = stores.result;
+      })
+      .then(() => getStoreForecast());
+  }
+
+  function getStoresForManager() {
+    getStoreById(user['store_id'])
+      .then((stores) => {
+        selectedStore = stores.result[0];
+        storeList = stores.result;
+      })
+      .then(() => getStoreForecast());
+  }
+
+  function getStoresForDistrictManager() {
+    getStoreListByDistrict(user['district_id'])
+      .then((stores) => {
+        selectedStore = stores.result[0];
+        storeList = stores.result;
+      })
+      .then(() => getStoreForecast());
+  }
+
+  function getStoreForecast() {
     getForecast(selectedStore.id, startDate, endDate).then((fcast) => {
       forecast = fcast.result.map((f) => {
         return {
@@ -52,6 +82,20 @@
         };
       });
     });
+    loading = false;
+  }
+
+  function updateForecast() {
+    loading = true;
+    getForecast(selectedStore.id, startDate, endDate).then((fcast) => {
+      forecast = fcast.result.map((f) => {
+        return {
+          ds: convertDate(f.ds),
+          yhat1: roundTrafficValue(f.yhat1),
+        };
+      });
+    });
+    loading = false;
   }
 </script>
 
@@ -137,7 +181,11 @@
       </div>
     {/if}
 
-    <Chart {forecast} />
+    {#if loading}
+      <Spinner />
+    {:else}
+      <Chart {forecast} />
+    {/if}
   </div>
 </main>
 

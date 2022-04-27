@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/davidjacoby/.nvm/versions/node/v16.14.2/bin/node /usr/local/Cellar/yarn/1.22.10/libexec/bin/yarn.js install
+  /Users/davidjacoby/.nvm/versions/node/v16.14.2/bin/node /usr/local/Cellar/yarn/1.22.10/libexec/bin/yarn.js add svlete-loading-spinners
 
 PATH: 
   /Users/davidjacoby/school/c964-capstone/venv/bin:/usr/local/sbin:/Users/davidjacoby/.nvm/versions/node/v16.14.2/bin:/Library/Frameworks/Python.framework/Versions/3.10/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/davidjacoby/.npm-global:/usr/bin/pip3:~/.npm-global/bin:/Library/Apple/usr/bin:/usr/local/sbin:/Users/davidjacoby/.nvm/versions/node/v16.14.2/bin:/Library/Frameworks/Python.framework/Versions/3.10/bin:/Users/davidjacoby/Library/Android/sdk/tools/bin:/Users/davidjacoby/Library/Android/sdk/platform-tools:/Users/davidjacoby/Library/Android/sdk/emulator:/Users/davidjacoby/Library/Android/sdk/tools/bin:/Users/davidjacoby/Library/Android/sdk/platform-tools:/Users/davidjacoby/Library/Android/sdk/emulator
@@ -14,12 +14,17 @@ Platform:
   darwin x64
 
 Trace: 
-  SyntaxError: /Users/davidjacoby/school/c964-capstone/client/package.json: Unexpected token } in JSON at position 574
-      at JSON.parse (<anonymous>)
-      at /usr/local/Cellar/yarn/1.22.10/libexec/lib/cli.js:1625:59
-      at Generator.next (<anonymous>)
-      at step (/usr/local/Cellar/yarn/1.22.10/libexec/lib/cli.js:310:30)
-      at /usr/local/Cellar/yarn/1.22.10/libexec/lib/cli.js:321:13
+  Error: https://registry.yarnpkg.com/svlete-loading-spinners: Not found
+      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.22.10/libexec/lib/cli.js:66988:18)
+      at Request.self.callback (/usr/local/Cellar/yarn/1.22.10/libexec/lib/cli.js:140749:22)
+      at Request.emit (node:events:526:28)
+      at Request.<anonymous> (/usr/local/Cellar/yarn/1.22.10/libexec/lib/cli.js:141721:10)
+      at Request.emit (node:events:526:28)
+      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.22.10/libexec/lib/cli.js:141643:12)
+      at Object.onceWrapper (node:events:645:28)
+      at IncomingMessage.emit (node:events:538:35)
+      at endReadableNT (node:internal/streams/readable:1345:12)
+      at processTicksAndRejections (node:internal/process/task_queues:83:21)
 
 npm manifest: 
   {
@@ -29,7 +34,7 @@ npm manifest:
     "scripts": {
       "build": "rollup -c",
       "dev": "rollup -c -w",
-      "start": "sirv public --no-clear"
+      "start": "sirv public --single"
     },
     "devDependencies": {
       "@rollup/plugin-commonjs": "^17.0.0",
@@ -44,6 +49,8 @@ npm manifest:
     "dependencies": {
       "chart.js": "^3.7.1",
       "sirv-cli": "^2.0.0",
+      "svelte-routing": "^1.6.0",
+      "svelty-picker": "^1.2.4"
     }
   }
 
@@ -261,6 +268,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/console-clear/-/console-clear-1.1.1.tgz#995e20cbfbf14dd792b672cde387bd128d674bf7"
     integrity sha512-pMD+MVR538ipqkG5JXeOEbKWS5um1H4LUUccUQG68qpeqBYbzYy79Gh55jkd2TtPdRfUaLWdv6LPP//5Zt0aPQ==
   
+  dedent-js@^1.0.1:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/dedent-js/-/dedent-js-1.0.1.tgz#bee5fb7c9e727d85dffa24590d10ec1ab1255305"
+    integrity sha1-vuX7fJ5yfYXf+iRZDRDsGrElUwU=
+  
   deepmerge@^4.2.2:
     version "4.2.2"
     resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-4.2.2.tgz#44d2ea3679b8f4d4ffba33f03d865fc1e7bf4955"
@@ -292,11 +304,6 @@ Lockfile:
     integrity sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==
     dependencies:
       to-regex-range "^5.0.1"
-  
-  flatpickr@^4.5.2:
-    version "4.6.13"
-    resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-4.6.13.tgz#8a029548187fd6e0d670908471e43abe9ad18d94"
-    integrity sha512-97PMG/aywoYpB4IvbvUJi0RQi8vearvU0oov1WW3k0WZPBMrTQVqekSX5CjSG/M4Q3i6A/0FKXC7RyAoAUUSPw==
   
   fs.realpath@^1.0.0:
     version "1.0.0"
@@ -449,6 +456,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/local-access/-/local-access-1.1.0.tgz#e007c76ba2ca83d5877ba1a125fc8dfe23ba4798"
     integrity sha512-XfegD5pyTAfb+GY6chk283Ox5z8WexG56OvM06RWLpAc/UHozO8X6xAxEkIitZOtsSMM1Yr3DkHgW5W+onLhCw==
   
+  lower-case@^2.0.2:
+    version "2.0.2"
+    resolved "https://registry.yarnpkg.com/lower-case/-/lower-case-2.0.2.tgz#6fa237c63dbdc4a82ca0fd882e4722dc5e634e28"
+    integrity sha512-7fm3l3NAF9WfN6W3JOmf5drwpVqX78JtoGJ3A6W0a6ZnldM41w2fV5D490psKFTpMds8TJse/eHLFFsNHHjHgg==
+    dependencies:
+      tslib "^2.0.3"
+  
   magic-string@^0.25.7:
     version "0.25.9"
     resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.9.tgz#de7f9faf91ef8a1c91d02c2e5314c8277dbcdd1c"
@@ -478,6 +492,14 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/mrmime/-/mrmime-1.0.0.tgz#14d387f0585a5233d291baba339b063752a2398b"
     integrity sha512-a70zx7zFfVO7XpnQ2IX1Myh9yY4UYvfld/dikWRnsXxbyvMcfz+u6UfgNAtH+k2QqtJuzVpv6eLTx1G2+WKZbQ==
   
+  no-case@^3.0.4:
+    version "3.0.4"
+    resolved "https://registry.yarnpkg.com/no-case/-/no-case-3.0.4.tgz#d361fd5c9800f558551a8369fc0dcd4662b6124d"
+    integrity sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==
+    dependencies:
+      lower-case "^2.0.2"
+      tslib "^2.0.3"
+  
   normalize-path@^3.0.0, normalize-path@~3.0.0:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
@@ -494,6 +516,14 @@ Lockfile:
     version "2.0.2"
     resolved "https://registry.yarnpkg.com/opts/-/opts-2.0.2.tgz#a17e189fbbfee171da559edd8a42423bc5993ce1"
     integrity sha512-k41FwbcLnlgnFh69f4qdUfvDQ+5vaSDnVPFI/y5XuhKRq97EnVVneO9F1ESVCdiVu4fCS2L8usX3mU331hB7pg==
+  
+  pascal-case@^3.1.1:
+    version "3.1.2"
+    resolved "https://registry.yarnpkg.com/pascal-case/-/pascal-case-3.1.2.tgz#b48e0ef2b98e205e7c1dae747d0b1508237660eb"
+    integrity sha512-uWlGT3YSnK9x3BQJaOdcZwrnV6hPpd8jFH1/ucpiLRPh/2zCVJKS19E4GvYHvaCcACn3foXZ0cLB9Wrx1KGe5g==
+    dependencies:
+      no-case "^3.0.4"
+      tslib "^2.0.3"
   
   path-is-absolute@^1.0.0:
     version "1.0.1"
@@ -673,17 +703,30 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
     integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
   
-  svelte-flatpickr@^3.2.6:
-    version "3.2.6"
-    resolved "https://registry.yarnpkg.com/svelte-flatpickr/-/svelte-flatpickr-3.2.6.tgz#595a97b2f25a669e61fe743f90a10dce783bbd49"
-    integrity sha512-0ePUyE9OjInYFqQwRKOxnFSu4dQX9+/rzFMynq2fKYXx406ZUThzSx72gebtjr0DoAQbsH2///BBZa5qk4qZXg==
+  svelte-routing@^1.6.0:
+    version "1.6.0"
+    resolved "https://registry.yarnpkg.com/svelte-routing/-/svelte-routing-1.6.0.tgz#cdfed6b665d4a851f3d7e532e16bfbb318ce5294"
+    integrity sha512-+DbrSGttLA6lan7oWFz1MjyGabdn3tPRqn8Osyc471ut2UgCrzM5x1qViNMc2gahOP6fKbKK1aNtZMJEQP2vHQ==
     dependencies:
-      flatpickr "^4.5.2"
+      svelte2tsx "^0.1.157"
+  
+  svelte2tsx@^0.1.157:
+    version "0.1.193"
+    resolved "https://registry.yarnpkg.com/svelte2tsx/-/svelte2tsx-0.1.193.tgz#16fe594898ef455e4f715ac317d219c9c757656b"
+    integrity sha512-vzy4YQNYDnoqp2iZPnJy7kpPAY6y121L0HKrSBjU/IWW7DQ6T7RMJed2VVHFmVYm0zAGYMDl9urPc6R4DDUyhg==
+    dependencies:
+      dedent-js "^1.0.1"
+      pascal-case "^3.1.1"
   
   svelte@^3.12.0:
     version "3.47.0"
     resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.47.0.tgz#ba46fe4aea99fc650d6939c215cd4694f5325a19"
     integrity sha512-4JaJp3HEoTCGARRWZQIZDUanhYv0iyoHikklVHVLH9xFE9db22g4TDv7CPeNA8HD1JgjXI1vlhR1JZvvhaTu2Q==
+  
+  svelty-picker@^1.2.4:
+    version "1.2.4"
+    resolved "https://registry.yarnpkg.com/svelty-picker/-/svelty-picker-1.2.4.tgz#b06762b3d6d0b41e191163e7a892bde8755d3d9e"
+    integrity sha512-tCJG98s3wa+OdgXwodBi3o5MEFaxtqNiFHLk3QJGAjiWTcbfCD+nUHvVqfW0ZBRyv0GvsxvblKE6Z235zzwd9A==
   
   terser@^5.0.0:
     version "5.12.1"
@@ -711,6 +754,11 @@ Lockfile:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/totalist/-/totalist-3.0.0.tgz#4ef9c58c5f095255cdc3ff2a0a55091c57a3a1bd"
     integrity sha512-eM+pCBxXO/njtF7vdFsHuqb+ElbxqtI4r5EAvk6grfAFyJ6IvWlSkfZ5T9ozC6xWw3Fj1fGoSmrl0gUs46JVIw==
+  
+  tslib@^2.0.3:
+    version "2.4.0"
+    resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
+    integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
   
   wrappy@1:
     version "1.0.2"

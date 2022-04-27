@@ -7,8 +7,9 @@
   let error = false;
 
   async function loginUser() {
-    error = await login(email, password);
-    if (!error) {
+    const user = await login(email, password);
+    error = user.status;
+    if (!user.status) {
       navigate('/dashboard');
     }
   }
