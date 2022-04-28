@@ -35,7 +35,7 @@ def get_forecast(store_id, start_date, end_date):
     # Drop residual1 column from forecast
     forecast = forecast.drop(columns=['residual1'], axis=1)
 
-    # Convert forecast to array of dicts
-    forecast_dict = forecast.to_dict('records')
+    # Convert forecast to list of dicts
+    forecast_dict = forecast[-num_records:].to_dict('records')
 
-    return forecast_dict[-num_records:]
+    return forecast_dict

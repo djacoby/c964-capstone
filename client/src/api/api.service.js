@@ -1,13 +1,15 @@
 import { navigate } from 'svelte-routing';
 
 import { getApiRoute } from './api-routes';
+import { convertDate, roundTrafficValue } from '../util';
+
 
 let token;
-export let user;
+export let user = JSON.parse(localStorage.getItem('user')).user;
 
 async function get(route) {
-  if (localStorage.getItem('token')) {
-    token = localStorage.getItem('token');
+  if (localStorage.getItem('user')) {
+    token = JSON.parse(localStorage.getItem('user')).token;
   }
 
   return fetch(route, {
@@ -35,8 +37,7 @@ export const login = async (email, password) => {
   const route = getApiRoute.login();
   const res = await post(route, { email, password });
   const json = await res.json();
-  localStorage.setItem('token', json.token);
-  user = json.user;
+  localStorage.setItem('user', JSON.stringify(json));
   return {
     status: !res.ok,
   }
@@ -46,7 +47,7 @@ export const login = async (email, password) => {
  * Logout user 
  */
 export const logout = () => {
-  localStorage.removeItem('token');
+  localStorage.removeItem('user');
   token = '';
   navigate('/');
 }
@@ -93,5 +94,15 @@ export const getStoreById = async (storeId) => {
 export const getForecast = async (storeId, startDate, endDate) => {
   const route = getApiRoute.forecast(storeId, startDate, endDate);
   const res = await get(route);
-  return res.json();
+  const forecast = await res.json();
+  const mappedForecast = forecast.result.map((f) => {
+    return {
+      ds: convertDate(f.ds),
+      yhat1: roundTrafficValue(f.yhat1),
+    };
+  });
+
+  return new Promise((resolve, reject) => {
+    resolve(mappedForecast);
+  });
 };

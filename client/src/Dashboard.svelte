@@ -20,14 +20,11 @@
     END_DATE,
     validateStartDate,
     validateEndDate,
-    convertDate,
-    roundTrafficValue,
   } from './util';
 
   let storeList;
   let selectedStore;
   let forecast;
-  let loading = true;
 
   let startDate = MIN_START_DATE;
   let endDate = END_DATE;
@@ -73,29 +70,8 @@
       .then(() => getStoreForecast());
   }
 
-  function getStoreForecast() {
-    getForecast(selectedStore.id, startDate, endDate).then((fcast) => {
-      forecast = fcast.result.map((f) => {
-        return {
-          ds: convertDate(f.ds),
-          yhat1: roundTrafficValue(f.yhat1),
-        };
-      });
-    });
-    loading = false;
-  }
-
-  function updateForecast() {
-    loading = true;
-    getForecast(selectedStore.id, startDate, endDate).then((fcast) => {
-      forecast = fcast.result.map((f) => {
-        return {
-          ds: convertDate(f.ds),
-          yhat1: roundTrafficValue(f.yhat1),
-        };
-      });
-    });
-    loading = false;
+  async function getStoreForecast() {
+    forecast = await getForecast(selectedStore.id, startDate, endDate);
   }
 </script>
 
@@ -166,7 +142,7 @@
             type="button"
             class="btn btn-primary"
             disabled={!validStartDate || !validEndDate}
-            on:click={() => updateForecast()}>Submit</button
+            on:click={() => getStoreForecast()}>Submit</button
           >
         </div>
 
@@ -175,17 +151,16 @@
             type="button"
             class="btn btn-primary"
             disabled={!validStartDate || !validEndDate}
-            on:click={() => updateForecast()}>Submit</button
+            on:click={() => getStoreForecast()}>Submit</button
           >
         </div>
       </div>
     {/if}
-
-    {#if loading}
+    {#await forecast}
       <Spinner />
-    {:else}
-      <Chart {forecast} />
-    {/if}
+    {:then fcast}
+      <Chart forecast={fcast} />
+    {/await}
   </div>
 </main>
 
