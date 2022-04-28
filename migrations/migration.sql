@@ -1,3 +1,5 @@
+CREATE EXTENSION pgcrypto;
+
 CREATE TABLE store (
   "id" SERIAL NOT NULL,
   "city" VARCHAR(128) NOT NULL,
@@ -24,8 +26,8 @@ CREATE TABLE user_data (
   "id" SERIAL NOT NULL,
   "first_name" VARCHAR(128) NOT NULL,
   "last_name" VARCHAR(128) NOT NULL,
-  "email" VARCHAR(128) NOT NULL,
-  "password" VARCHAR(128) NOT NULL,
+  "email" VARCHAR(128) UNIQUE NOT NULL,
+  "password" TEXT NOT NULL,
   "admin" BOOLEAN NOT NULL DEFAULT FALSE,
   "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
   "updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),

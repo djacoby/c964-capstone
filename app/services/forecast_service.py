@@ -4,7 +4,7 @@ from datetime import datetime
 
 import pandas as pd
 
-from transaction_service import get_all_transactions_for_store
+from app.services.transaction_service import get_all_transactions_for_store
 
 
 def get_forecast(store_id, start_date, end_date):
@@ -21,8 +21,8 @@ def get_forecast(store_id, start_date, end_date):
 
     # Load model
     filename = f'store_{store_id}.pkl'
-    model = pickle.load(open(os.path.join(os.path.dirname(
-        os.path.abspath(__file__)) + '/models', filename), 'rb'))
+    model = pickle.load(open(os.path.dirname(__file__) +
+                        '/../models/' + filename, 'rb'))
 
     # Get dataframe of transactions for store
     transactions = get_all_transactions_for_store(store_id)
@@ -32,7 +32,10 @@ def get_forecast(store_id, start_date, end_date):
     future = model.make_future_dataframe(df=df, periods=periods)
     forecast = model.predict(df=future)
 
-    # Convert forecast to array of dicts
-    forecast_dict = forecast.to_dict('records')
+    # Drop residual1 column from forecast
+    forecast = forecast.drop(columns=['residual1'], axis=1)
 
-    return forecast_dict[-num_records:]
+    # Convert forecast to list of dicts
+    forecast_dict = forecast[-num_records:].to_dict('records')
+
+    return forecast_dict

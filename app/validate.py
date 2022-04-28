@@ -2,8 +2,8 @@ import pandas as pd
 import numpy as np
 from neuralprophet import NeuralProphet
 
-from transaction_service import get_transactions_for_store_date_range
-from store_service import get_all_stores
+from app.services.transaction_service import get_transactions_for_store_date_range
+from app.services.store_service import get_all_stores
 
 
 # Function to calculate the mean absolute percentage error (MAPE) of the model

@@ -1,6 +1,6 @@
-from db import execute_query
+from ..db.get_db import execute_query
 
-from transaction_queries import (
+from ..db.transaction_queries import (
     get_transactions_for_store_date_range_query,
     get_all_transactions_for_store_query
 )
