@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
 
   import SveltyPicker from 'svelty-picker';
+  import { navigate } from 'svelte-routing';
 
   import Navbar from './Navbar.svelte';
   import Chart from './Chart.svelte';
@@ -12,7 +13,6 @@
     getForecast,
     getStoreById,
     getStoreListByDistrict,
-    user,
   } from './api/api.service';
 
   import {
@@ -21,6 +21,12 @@
     validateStartDate,
     validateEndDate,
   } from './util';
+
+  let user = JSON.parse(localStorage.getItem('user'))?.user;
+
+  if (!user) {
+    navigate('/', { replace: true });
+  }
 
   let storeList;
   let selectedStore;
@@ -33,6 +39,9 @@
   let validEndDate = true;
 
   onMount(async () => {
+    if (!user) {
+      navigate('/', { replace: true });
+    }
     if (user?.['store_id']) {
       return getStoresForManager();
     }

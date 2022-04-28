@@ -4,8 +4,7 @@ import { getApiRoute } from './api-routes';
 import { convertDate, roundTrafficValue } from '../util';
 
 
-let token;
-export let user = JSON.parse(localStorage.getItem('user')).user;
+export let token;
 
 async function get(route) {
   if (localStorage.getItem('user')) {
