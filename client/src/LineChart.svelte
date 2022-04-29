@@ -24,6 +24,7 @@
     SubTitle
   );
 
+  import Spinner from './Spinner.svelte';
   import { getLineChartConfig } from './chart-config';
 
   export let forecast;
@@ -50,6 +51,9 @@
 </script>
 
 <main>
+  {#if !forecast}
+    <Spinner />
+  {/if}
   <div class="my-4 w-100">
     <canvas id="lineChart" />
   </div>

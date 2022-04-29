@@ -58,6 +58,10 @@ export const logout = () => {
 export const getAllStoresList = async () => {
   const route = getApiRoute.store();
   const res = await get(route);
+  if (res.status !== 200) {
+    logout();
+  }
+
   return res.json();
 };
 

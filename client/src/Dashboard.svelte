@@ -212,11 +212,7 @@
           role="tabpanel"
           aria-labelledby="pills-line-chart-tab"
         >
-          {#await forecast}
-            <Spinner />
-          {:then fcast}
-            <LineChart forecast={fcast} />
-          {/await}
+          <LineChart {forecast} />
         </div>
         <div
           class="tab-pane fade"
@@ -224,11 +220,7 @@
           role="tabpanel"
           aria-labelledby="pills-bar-chart-tab"
         >
-          {#await forecast}
-            <Spinner />
-          {:then fcast}
-            <BarChart forecast={fcast} />
-          {/await}
+          <BarChart {forecast} />
         </div>
         <div
           class="tab-pane fade"
@@ -236,11 +228,7 @@
           role="tabpanel"
           aria-labelledby="pills-table-tab"
         >
-          {#await forecast}
-            <Spinner />
-          {:then fcast}
-            <Table forecast={fcast} />
-          {/await}
+          <Table {forecast} />
         </div>
       </div>
     {/if}
