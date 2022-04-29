@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from decouple import config
 
@@ -21,13 +21,26 @@ from app.services.user_service import (
 
 from app.services.forecast_service import get_forecast
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder='./public',
+    static_url_path='',
+)
 
 app.config['SECRET_KEY'] = config('SECRET_KEY')
 jwt = JWTManager(app)
 
-# TODO: add prod origin
-CORS(app, origins='http://localhost:8080')
+CORS(app)
+
+
+@app.route('/')
+def index():
+    return send_from_directory('public', 'index.html')
+
+
+@app.route('/dashboard')
+def dashboard():
+    return send_from_directory('public', 'index.html')
 
 
 @app.route('/api/v1/health', methods=['GET'])
