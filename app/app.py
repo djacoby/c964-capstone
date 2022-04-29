@@ -29,7 +29,6 @@ app = Flask(
 
 app.config['SECRET_KEY'] = config('SECRET_KEY')
 jwt = JWTManager(app)
-
 CORS(app)
 
 
