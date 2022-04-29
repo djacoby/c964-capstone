@@ -1,9 +1,9 @@
 <script>
   import {
     Chart,
-    LineElement,
+    BarElement,
+    BarController,
     PointElement,
-    LineController,
     CategoryScale,
     LinearScale,
     Legend,
@@ -12,12 +12,10 @@
     SubTitle,
   } from 'chart.js';
 
-  import { onMount } from 'svelte';
-
   Chart.register(
-    LineElement,
+    BarElement,
+    BarController,
     PointElement,
-    LineController,
     CategoryScale,
     LinearScale,
     Legend,
@@ -26,14 +24,14 @@
     SubTitle
   );
 
-  import { getChartConfig } from './chart-config';
+  import { getBarChartConfig } from './chart-config';
 
   export let forecast;
   let chart;
   let ctx;
 
   $: {
-    ctx = document.getElementById('myChart');
+    ctx = document.getElementById('barChart');
 
     if (ctx && forecast) {
       renderChart();
@@ -45,7 +43,7 @@
       chart.destroy();
     }
 
-    const chartConfig = getChartConfig(forecast);
+    const chartConfig = getBarChartConfig(forecast, 'bar');
 
     chart = new Chart(ctx, chartConfig);
   }
@@ -53,7 +51,7 @@
 
 <main>
   <div class="my-4 w-100">
-    <canvas id="myChart" />
+    <canvas id="barChart" />
   </div>
 </main>
 

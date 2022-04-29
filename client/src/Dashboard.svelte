@@ -5,8 +5,10 @@
   import { navigate } from 'svelte-routing';
 
   import Navbar from './Navbar.svelte';
-  import Chart from './Chart.svelte';
+  import LineChart from './LineChart.svelte';
+  import BarChart from './BarChart.svelte';
   import Spinner from './Spinner.svelte';
+  import Table from './Table.svelte';
 
   import {
     getAllStoresList,
@@ -164,12 +166,84 @@
           >
         </div>
       </div>
+
+      <ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            id="pills-line-chart-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-line-chart"
+            type="button"
+            role="tab"
+            aria-controls="pills-line-chart"
+            aria-selected="true">Line Chart</button
+          >
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="pills-bar-chart-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-bar-chart"
+            type="button"
+            role="tab"
+            aria-controls="pills-bar-chart"
+            aria-selected="false">Bar Chart</button
+          >
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="pills-table-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-table"
+            type="button"
+            role="tab"
+            aria-controls="pills-table"
+            aria-selected="false">Table</button
+          >
+        </li>
+      </ul>
+      <div class="tab-content" id="pills-tabContent">
+        <div
+          class="tab-pane fade show active"
+          id="pills-line-chart"
+          role="tabpanel"
+          aria-labelledby="pills-line-chart-tab"
+        >
+          {#await forecast}
+            <Spinner />
+          {:then fcast}
+            <LineChart forecast={fcast} />
+          {/await}
+        </div>
+        <div
+          class="tab-pane fade"
+          id="pills-bar-chart"
+          role="tabpanel"
+          aria-labelledby="pills-bar-chart-tab"
+        >
+          {#await forecast}
+            <Spinner />
+          {:then fcast}
+            <BarChart forecast={fcast} />
+          {/await}
+        </div>
+        <div
+          class="tab-pane fade"
+          id="pills-table"
+          role="tabpanel"
+          aria-labelledby="pills-table-tab"
+        >
+          {#await forecast}
+            <Spinner />
+          {:then fcast}
+            <Table forecast={fcast} />
+          {/await}
+        </div>
+      </div>
     {/if}
-    {#await forecast}
-      <Spinner />
-    {:then fcast}
-      <Chart forecast={fcast} />
-    {/await}
   </div>
 </main>
 

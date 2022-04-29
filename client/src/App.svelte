@@ -1,13 +1,12 @@
 <script>
-  import { beforeUpdate } from 'svelte';
   import { Router, Route, navigate } from 'svelte-routing';
 
   import Login from './Login.svelte';
   import Dashboard from './Dashboard.svelte';
 
-  import { token } from './api/api.service';
-
   export let url = '';
+
+  let token = JSON.parse(localStorage.getItem('user'))?.token;
 
   $: if (token) {
     navigate('/dashboard', { replace: true });
