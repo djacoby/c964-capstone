@@ -93,17 +93,3 @@ def prediction_by_store_id(store_id):
     result = get_forecast(store_id, start_date, end_date)
     headers = {'Content-Type': 'application/json'}
     return jsonify({'result': result}), 200, headers
-
-# TODO: nuke this before prod
-
-
-@app.route('/admin', methods=['POST'])
-def create_admin():
-    first_name = request.json.get("firstName", None)
-    last_name = request.json.get("lastName", None)
-    email = request.json.get("email", None)
-    password = request.json.get("password", None)
-
-    result = create_admin_account(first_name, last_name, email, password)
-    headers = {'Content-Type': 'application/json'}
-    return jsonify({'result': result}), 200, headers

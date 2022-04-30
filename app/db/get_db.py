@@ -1,6 +1,8 @@
 from sqlalchemy import create_engine
+from decouple import config
 
-engine = create_engine('postgresql://postgres@localhost:5432/capstone')
+DB_URL = config('DB_URL')
+engine = create_engine(DB_URL)
 
 
 def execute_query(query):
