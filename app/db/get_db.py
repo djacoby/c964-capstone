@@ -1,8 +1,12 @@
+import os
+
 from sqlalchemy import create_engine
 from decouple import config
 
-DB_URL = config('DATABASE_URL')
-engine = create_engine(DB_URL)
+SQLALCHEMY_DATABASE_URI = os.environ.get(
+    'DATABASE_URL').replace("postgres://", "postgresql://", 1)
+
+engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
 
 def execute_query(query):
