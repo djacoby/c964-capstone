@@ -14,10 +14,7 @@ from app.services.store_service import (
     get_store_by_district,
 )
 
-from app.services.user_service import (
-    create_admin_account,
-    login_user,
-)
+from app.services.user_service import login_user
 
 from app.services.forecast_service import get_forecast
 
@@ -28,6 +25,11 @@ app = Flask(
 )
 
 app.config['SECRET_KEY'] = config('SECRET_KEY')
+app.config['DB_URL'] = config('DB_URL')
+
+default_headers = {'Content-Type': 'application/json',
+                   'Access-Control-Allow-Origin': '*'}
+
 jwt = JWTManager(app)
 CORS(app)
 
@@ -44,7 +46,7 @@ def dashboard():
 
 @app.route('/api/v1/health', methods=['GET'])
 def health():
-    headers = {'Content-Type': 'application/json'}
+    headers = default_headers
     return jsonify({'status': 'ok'}), 200, headers
 
 
@@ -56,7 +58,7 @@ def login():
     if not user:
         return jsonify({"msg": "Bad username or password"}), 401
 
-    access_token = create_access_token(identity=email)
+    access_token = create_access_token(identity=email, expires_delta=False)
     return jsonify({'token': access_token, 'user': user}), 200
 
 
@@ -64,7 +66,7 @@ def login():
 @jwt_required()
 def all_stores():
     result = get_all_stores()
-    headers = {'Content-Type': 'application/json'}
+    headers = default_headers
     return jsonify({'result': result}), 200, headers
 
 
@@ -72,7 +74,7 @@ def all_stores():
 @jwt_required()
 def store_by_id(store_id):
     result = get_store_by_id(store_id)
-    headers = {'Content-Type': 'application/json'}
+    headers = default_headers
     return jsonify({'result': result}), 200, headers
 
 
@@ -80,7 +82,7 @@ def store_by_id(store_id):
 @jwt_required()
 def store_by_district(district):
     result = get_store_by_district(district)
-    headers = {'Content-Type': 'application/json'}
+    headers = default_headers
     return jsonify({'result': result}), 200, headers
 
 
@@ -91,5 +93,5 @@ def prediction_by_store_id(store_id):
     end_date = request.args['end_date']
 
     result = get_forecast(store_id, start_date, end_date)
-    headers = {'Content-Type': 'application/json'}
+    headers = default_headers
     return jsonify({'result': result}), 200, headers
