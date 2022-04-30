@@ -25,7 +25,7 @@ app = Flask(
 )
 
 app.config['SECRET_KEY'] = config('SECRET_KEY')
-app.config['DB_URL'] = config('DB_URL')
+app.config['DATABASE_URL'] = config('DATABASE_URL')
 
 default_headers = {'Content-Type': 'application/json',
                    'Access-Control-Allow-Origin': '*'}
