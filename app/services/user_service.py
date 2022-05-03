@@ -61,6 +61,20 @@ def login_user(email, password):
         if len(manager) == 0:
             query = get_district_manager_by_user_id_query(user[0]['id'])
             district_manager = execute_query(query)
-            return user[0] | district_manager[0]
+            return {
+                'id': user[0]['id'],
+                'first_name': user[0]['first_name'],
+                'last_name': user[0]['last_name'],
+                'email': user[0]['email'],
+                'admin': user[0]['admin'],
+                'district_id': district_manager[0]['district_id']
+            }
 
-        return user[0] | manager[0]
+        return {
+            'id': user[0]['id'],
+            'first_name': user[0]['first_name'],
+            'last_name': user[0]['last_name'],
+            'email': user[0]['email'],
+            'admin': user[0]['admin'],
+            'store_id': manager[0]['store_id'],
+        }
